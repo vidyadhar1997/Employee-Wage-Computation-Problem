@@ -22,29 +22,40 @@ public class EmployeeWageComputationProblem{
 
 class mainD{
 	public static void main(String[] args){
-      //constants
-   	 int EMPLOYEE_WEG_PER_HOUR = 20;
-       int FULL_DAY_HOUR = 8;
-       int PARTIME_HOUR = 4;
-       int ABSENT = 0;
-       int EMPLOYEE_PRSENT_OR_ABSENT;
-       int PARTIME_OR_FULLTIME;
-       int EMPLOYEE_WEGES;
-        EmployeeWageComputationProblem emp = new EmployeeWageComputationProblem();
-       EMPLOYEE_PRSENT_OR_ABSENT = emp.Check_Attendence();
-       if (EMPLOYEE_PRSENT_OR_ABSENT == 0){
-       	PARTIME_OR_FULLTIME = emp.Check_Attendence();
-         if (PARTIME_OR_FULLTIME == 0){
-          	EMPLOYEE_WEGES = emp.Calculate_Daily_Emoployee_Wages(EMPLOYEE_WEG_PER_HOUR, FULL_DAY_HOUR);
-         }
-         else{
-              	EMPLOYEE_WEGES = emp.Calculate_Daily_Emoployee_Wages(EMPLOYEE_WEG_PER_HOUR, PARTIME_HOUR);
-             }
-         }
-         else{
-              	EMPLOYEE_WEGES = ABSENT;
-             }
-             	System.out.println("Daily Employee Wage is : "+EMPLOYEE_WEGES);
+      //constant
+      int EMPLOYEE_WEG_PER_HOUR = 20;
+      int FULL_DAY_HOUR = 8;
+      int PARTIME_HOUR = 4;
+      int ABSENT = 0;
+      int EMPLOYEE_PRSENT_OR_ABSENT;
+      int PARTIME_OR_FULLTIME;
+      int EMPLOYEE_WEGES;
+      EmployeeWageComputationProblem emp = new EmployeeWageComputationProblem();
+      EMPLOYEE_PRSENT_OR_ABSENT = emp.Check_Attendence();
+      switch (EMPLOYEE_PRSENT_OR_ABSENT){
+      	case 0:
+         		PARTIME_OR_FULLTIME = emp.Check_Attendence();
+               	switch (PARTIME_OR_FULLTIME){
+                  	case 0:
+                     	EMPLOYEE_WEGES = emp.Calculate_Daily_Emoployee_Wages(EMPLOYEE_WEG_PER_HOUR, FULL_DAY_HOUR);
+                        System.out.println("Daily Employee Wages : " + EMPLOYEE_WEGES);
+                        break;
+							case 1:
+                     	EMPLOYEE_WEGES = emp.Calculate_Daily_Emoployee_Wages(EMPLOYEE_WEG_PER_HOUR, PARTIME_HOUR);
+                        System.out.println("Daily Employee Wages : " + EMPLOYEE_WEGES);
+                        break;
 
-        }
- }
+                     default:
+                        break;
+                       }
+                       break;
+          case 1:
+          	EMPLOYEE_WEGES = ABSENT;
+            System.out.println(" Employee Is Absent : " + EMPLOYEE_WEGES);
+            break;
+          default:
+            break;
+
+          }
+     }
+}
