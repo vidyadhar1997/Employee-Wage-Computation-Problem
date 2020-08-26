@@ -42,6 +42,7 @@ public class EmployeeWageComputationProblem{
       	int EMPLOYEE_PRSENT_OR_ABSENT=0;
          int PARTIME_OR_FULLTIME=0;
 
+         //Condition for total working day and hour
          while (countDays!=WORKINGDAYS && HOURS!=TOTAL_MONTHLY_WORKING_DAYS){
          	EMPLOYEE_PRSENT_OR_ABSENT = this.Check_Attendence();
 
