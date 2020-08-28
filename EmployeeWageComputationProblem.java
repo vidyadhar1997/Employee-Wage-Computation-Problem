@@ -2,14 +2,15 @@
 * Calculating Total Working Hour,Day And Total Wages
 */
 public class EmployeeWageComputationProblem{
-    int countDays;
+
+	int countDays;
     int WORKINGDAYS;
     int Employee_Monthly_Wages;
     int EMPLOYEE_WEGES;
     int HOURS;
     int TOTAL_MONTHLY_WORKING_DAYS;
 
-      //Dfsult Constructor
+      //Default Constructor for emp wage
       public EmployeeWageComputationProblem(){
     		countDays=0;
       	WORKINGDAYS=20;
@@ -77,9 +78,9 @@ public class EmployeeWageComputationProblem{
           }
           System.out.println("Total Wages Are : "+Employee_Monthly_Wages+ "\nTotal days are : "+countDays + "\nTotal Hours Are : " +HOURS);
           return Employee_Monthly_Wages;
-    }
-}
+	}
 
+}
 
 class mainD{
 	public static void main(String[] args){
