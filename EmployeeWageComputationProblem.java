@@ -3,94 +3,100 @@
 */
 public class EmployeeWageComputationProblem{
 
-	int countDays;
-    int WORKINGDAYS;
-    int Employee_Monthly_Wages;
-    int EMPLOYEE_WEGES;
-    int HOURS;
-    int TOTAL_MONTHLY_WORKING_DAYS;
+	//Constants
+    private static final int WORKING_DAYS=20;
+    private static final int TOTAL_MONTHLY_WORKING_DAYS=100;
+    private static final int EMPLOYEE_WEG_PER_HOUR = 20;
+    private static final int FULL_DAY_HOUR = 8;
+    private static final int PARTIME_HOUR = 4;
 
-      //Default Constructor for emp wage
-      public EmployeeWageComputationProblem(){
-    		countDays=0;
-      	WORKINGDAYS=20;
-      	HOURS=0;
-      	TOTAL_MONTHLY_WORKING_DAYS=100;
-     	 	Employee_Monthly_Wages=0;
-      	EMPLOYEE_WEGES=0;
+   //Variables
+    int countDays=0;
+    int employeeMonthlyWages=0;
+    int employeeWeges=0;
+    int hours=0;
+    int absent=0;
+    String company="";
+
+      //parameterized constructor
+      public EmployeeWageComputationProblem(String cmp){
+      this.company = cmp;
+      this.employeeMonthlyWages =  wagesForMonth ();
       }
 
       //function for checking attendence of employee
-      public int Check_Attendence(){
-      	//constants
-    		final int isFullTime=1;
-   		//for random value
-   		final double randomValue=Math.floor(Math.random()*10)%2;
-  			if(randomValue == isFullTime)
-      		return 0;
-    		else
-      		return 1;
-		}
+      public int checkAttendence(){
+         //constants
+         final int isFullTime=1;
+         //for random value
+         final double randomValue=Math.floor(Math.random()*10)%2;
+         if(randomValue == isFullTime)
+            return 0;
+         else
+            return 1;
+      }
 
       //function for calculating daily emp wages
-		public int Calculate_Daily_Emoployee_Wages(int employee_wage_per_hour, int full_day_hour){
-      	return employee_wage_per_hour * full_day_hour;
+      public int calculateDailyEmoployeeWages(){
+         return EMPLOYEE_WEG_PER_HOUR * FULL_DAY_HOUR;
 
       }
 
-      //function for calculating wages for month
-      public int Wages_For_Month ( int EMPLOYEE_WEG_PER_HOUR,int FULL_DAY_HOUR,int PARTIME_HOUR,int ABSENT){
-      	int EMPLOYEE_PRSENT_OR_ABSENT=0;
-         int PARTIME_OR_FULLTIME=0;
+      //function for calculating wagses for month
+      public int wagesForMonth (){
+	 		int employeePrsentOrAbsent=0;
+         int partTimeOrFullTime=0;
 
          //Condition for total working day and hour
-         while (countDays!=WORKINGDAYS && HOURS!=TOTAL_MONTHLY_WORKING_DAYS){
-         	EMPLOYEE_PRSENT_OR_ABSENT = this.Check_Attendence();
+         while (countDays!=WORKING_DAYS && hours!=TOTAL_MONTHLY_WORKING_DAYS){
+             employeePrsentOrAbsent= this.checkAttendence();
 
-            switch (EMPLOYEE_PRSENT_OR_ABSENT){
+            switch (employeePrsentOrAbsent){
 
-            	case 0:
-               	PARTIME_OR_FULLTIME = this.Check_Attendence();
+               case 0:
+                  partTimeOrFullTime = this.checkAttendence();
 
-                  switch (PARTIME_OR_FULLTIME){
+                  switch (partTimeOrFullTime){
 
-                  	case 0:
-                     	EMPLOYEE_WEGES = this.Calculate_Daily_Emoployee_Wages(EMPLOYEE_WEG_PER_HOUR, FULL_DAY_HOUR);
-                        HOURS+=FULL_DAY_HOUR;
+                     case 0:
+                        employeeWeges= this.calculateDailyEmoployeeWages();
+                        hours+=FULL_DAY_HOUR;
                         break;
 
                      case 1:
-                     	EMPLOYEE_WEGES = this.Calculate_Daily_Emoployee_Wages(EMPLOYEE_WEG_PER_HOUR, PARTIME_HOUR);
-                        HOURS+=PARTIME_HOUR;
+                        employeeWeges= this.calculateDailyEmoployeeWages();
+                        hours+=PARTIME_HOUR;
                         break;
 
                      default:
-                     	break;
+                        break;
                   }
                   break;
                case 1:
-               	EMPLOYEE_WEGES = ABSENT;
+                  employeeWeges = absent;
                   break;
              }
-             Employee_Monthly_Wages+=EMPLOYEE_WEGES;
+             employeeMonthlyWages+=employeeWeges;
              countDays++;
 
           }
-          System.out.println("Total Wages Are : "+Employee_Monthly_Wages+ "\nTotal days are : "+countDays + "\nTotal Hours Are : " +HOURS);
-          return Employee_Monthly_Wages;
-	}
+          return employeeMonthlyWages;
+    }
+
+   //Display methode
+   void display(){
+      System.out.println("\nCompany :"+company+"\nTotal Wages Are : "+employeeMonthlyWages+ "\nTotal days are : "+countDays + "\nTotal Hour  Are : " +hours);
+   }
 
 }
 
 class mainD{
 	public static void main(String[] args){
-      //constant
-   	int EMPLOYEE_WEG_PER_HOUR = 20;
-      int FULL_DAY_HOUR = 8;
-      int PARTIME_HOUR = 4;
-      int ABSENT=0;
-      EmployeeWageComputationProblem emp = new EmployeeWageComputationProblem();
-      int Monthely_Wages=emp.Wages_For_Month(EMPLOYEE_WEG_PER_HOUR,FULL_DAY_HOUR,PARTIME_HOUR,ABSENT);
-      System.out.println(Monthely_Wages);
-      }
+   	EmployeeWageComputationProblem emp1 = new EmployeeWageComputationProblem("Samsung");
+   	emp1.display();
+   	EmployeeWageComputationProblem emp2 = new EmployeeWageComputationProblem("microsoft");
+   	emp2.display();
+   	EmployeeWageComputationProblem emp3 = new EmployeeWageComputationProblem("Nokia");
+   	emp3.display();
+   	}
 }
