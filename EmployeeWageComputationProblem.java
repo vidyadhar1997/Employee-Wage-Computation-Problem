@@ -1,7 +1,12 @@
 /**
 * Calculating Total Working Hour,Day And Total Wages
 */
-public class EmployeeWageComputationProblem{
+ interface EmployeeWageMethode{
+	 public void addCompany(final String name, final int empRate, final int numOfWorkingDays, final int maxHrsInMonth);
+	 public int getEmpHrs()
+	}
+
+public class EmployeeWageComputationProblem implements EmployeeWageMethode{
 	private int noOfCompany = 0;
 	private Company [] companies;
 
