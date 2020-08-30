@@ -2,101 +2,137 @@
 * Calculating Total Working Hour,Day And Total Wages
 */
 public class EmployeeWageComputationProblem{
+	private int noOfCompany = 0;
+	private Company [] companies;
 
-	//Constants
-    private static final int WORKING_DAYS=20;
-    private static final int TOTAL_MONTHLY_WORKING_DAYS=100;
-    private static final int EMPLOYEE_WEG_PER_HOUR = 20;
-    private static final int FULL_DAY_HOUR = 8;
-    private static final int PARTIME_HOUR = 4;
+	public EmployeeWageComputationProblem() {
+		companies = new Company[5];
+	}
 
-   //Variables
-    int countDays=0;
-    int employeeMonthlyWages=0;
-    int employeeWeges=0;
-    int hours=0;
-    int absent=0;
-    String company="";
+	public static void main(String[] args) {
+		System.out.println("Starting...");
+		final EmployeeWageComputationProblem empBuilder = new EmployeeWageComputationProblem();
+		empBuilder.addCompany("Samsung", 20, 20, 100);
+		empBuilder.addCompany("Nokia", 20, 18, 110);
+		empBuilder.addCompany("Bajaj", 20, 18, 110);
 
-      //parameterized constructor
-      public EmployeeWageComputationProblem(String cmp){
-      this.company = cmp;
-      this.employeeMonthlyWages =  wagesForMonth ();
-      }
+		empBuilder.computeEmpWage();
+	}
 
-      //function for checking attendence of employee
-      public int checkAttendence(){
-         //constants
-         final int isFullTime=1;
-         //for random value
-         final double randomValue=Math.floor(Math.random()*10)%2;
-         if(randomValue == isFullTime)
-            return 0;
-         else
-            return 1;
-      }
+	public void addCompany(final String name, final int empRate, final int numOfWorkingDays, final int maxHrsInMonth){
+		System.out.println("Called add company function with name : "+ name);
+		companies[noOfCompany] = new Company(name, empRate, numOfWorkingDays, maxHrsInMonth);
+		noOfCompany++;
+	}
 
-      //function for calculating daily emp wages
-      public int calculateDailyEmoployeeWages(){
-         return EMPLOYEE_WEG_PER_HOUR * FULL_DAY_HOUR;
 
-      }
+	private void computeEmpWage(){
 
-      //function for calculating wagses for month
-      public int wagesForMonth (){
-	 		int employeePrsentOrAbsent=0;
-         int partTimeOrFullTime=0;
+		System.out.println("Called computeEmpWage --->");
+		for(int i = 0; i< noOfCompany; i++){
+			final int totalWage = computeEmpWage(companies[i]);
+			companies[i].setTotalEmpWage(totalWage);
+			System.out.println(companies[i]);
+		}
 
-         //Condition for total working day and hour
-         while (countDays!=WORKING_DAYS && hours!=TOTAL_MONTHLY_WORKING_DAYS){
-             employeePrsentOrAbsent= this.checkAttendence();
+	}
+	/**
+	 * calculate total employee wages
+	 * @param company The Company
+	 * @return total employee wages.
+	 */
+	private int computeEmpWage(final Company company) {
+		System.out.println("Calculating company wage for company : " + company.getName());
+		int totalWage = 0;
+		int totalEmpHrs = 0;
+		int totalWorkingDays = 0;
+		while(totalEmpHrs < company.getMaxHrsInMonth() && totalWorkingDays< company.getNumOfWorkingDays()){
+			totalWorkingDays++;
 
-            switch (employeePrsentOrAbsent){
+			final int empHrs = getEmpHrs();
+			final int empWage = empHrs*company.getEmpRate();
+			totalEmpHrs+=empHrs;
+			totalWage+=empWage;
+			//System.out.println("Emp DAY : "+totalWorkingDays+" wages : "+empWage);
+		}
+		return totalWage;
+	}
 
-               case 0:
-                  partTimeOrFullTime = this.checkAttendence();
+	/**
+	 * Get employee hours. 
+	 * @return employee hrs
+	 */
+	public int getEmpHrs() {
 
-                  switch (partTimeOrFullTime){
+		final int isFullTime = 1;
+		final int isPartTime = 2;
+		int empHrs = 0;
 
-                     case 0:
-                        employeeWeges= this.calculateDailyEmoployeeWages();
-                        hours+=FULL_DAY_HOUR;
-                        break;
+		//get random value
+		final double randomValue = Math.floor(Math.random()*10)%3;
 
-                     case 1:
-                        employeeWeges= this.calculateDailyEmoployeeWages();
-                        hours+=PARTIME_HOUR;
-                        break;
+		switch((int)randomValue) {
 
-                     default:
-                        break;
-                  }
-                  break;
-               case 1:
-                  employeeWeges = absent;
-                  break;
-             }
-             employeeMonthlyWages+=employeeWeges;
-             countDays++;
+			case isFullTime:
+				empHrs = 8;
+				//System.out.println("Emp is present for full time.");
+				break;
+			case isPartTime:
+				empHrs = 4;
+				//System.out.println("Emp is present for part time.");
+				break;
+			default:
+				//System.out.println("Emp is absent");
+				break;
+		}
+		return empHrs;
+	}
 
-          }
-          return employeeMonthlyWages;
-    }
+	
+}
 
-   //Display methode show the comany,total wages and total day and total hour
-   void display(){
-      System.out.println("\nCompany :"+company+"\nTotal Wages Are : "+employeeMonthlyWages+ "\nTotal days are : "+countDays + "\nTotal Hour  Are : " +hours);
-   }
+/**
+ * CompanyEmpWage 
+ */
+class Company {
+
+	private String name;
+	private int empRate;
+	private int numOfWorkingDays;
+	private int maxHrsInMonth;
+	private int totalEmpWage;
+
+	public Company(final String name, final int empRate, final int numOfWorkingDays, final int maxHrsInMonth){
+		this.name = name;
+		this.empRate = empRate;
+		this.numOfWorkingDays = numOfWorkingDays;
+		this.maxHrsInMonth = maxHrsInMonth;
+	}
+
+	public String getName(){
+		return this.name;
+	}
+
+	public int getEmpRate(){
+		return this.empRate;
+	}
+
+	public int getNumOfWorkingDays(){
+		return this.numOfWorkingDays;
+	}
+
+	public int getMaxHrsInMonth(){
+		return this.maxHrsInMonth;
+	}
+
+	public void setTotalEmpWage(final int totalEmpWage){
+		this.totalEmpWage=totalEmpWage;
+	}
+
+	@Override
+	public String toString(){
+		return "Total emp wage for company: "+name+" is "+ totalEmpWage;
+	}
 
 }
 
-class mainD{
-	public static void main(String[] args){
-   	EmployeeWageComputationProblem emp1 = new EmployeeWageComputationProblem("Samsung");
-   	emp1.display();
-   	EmployeeWageComputationProblem emp2 = new EmployeeWageComputationProblem("microsoft");
-   	emp2.display();
-   	EmployeeWageComputationProblem emp3 = new EmployeeWageComputationProblem("Nokia");
-   	emp3.display();
-   	}
-}
