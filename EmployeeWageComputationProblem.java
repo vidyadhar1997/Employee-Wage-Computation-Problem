@@ -83,7 +83,7 @@ public class EmployeeWageComputationProblem{
           return employeeMonthlyWages;
     }
 
-   //Display methode
+   //Display methode show the comany,total wages and total day and total hour
    void display(){
       System.out.println("\nCompany :"+company+"\nTotal Wages Are : "+employeeMonthlyWages+ "\nTotal days are : "+countDays + "\nTotal Hour  Are : " +hours);
    }
